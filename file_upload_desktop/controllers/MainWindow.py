@@ -1,4 +1,5 @@
 import ctypes
+import datetime
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QWidget, QMainWindow, QFileDialog, QSystemTrayIcon, QMenu, QListWidgetItem, QMessageBox
 
@@ -45,7 +46,6 @@ class MainWindow(QMainWindow):
         file_path = self.file_upload_window.file_path.text()
         if file_path != "":
             self.file_upload_window.file_path.setText('')
-            thread = UploadThread()
             item_widget = QWidget()
             item_raw = UploadListItem()
             item_raw.setupUi(item_widget)
@@ -56,9 +56,10 @@ class MainWindow(QMainWindow):
             item.setSizeHint(item_widget.sizeHint())
             self.file_upload_window.uploads.addItem(item)
             self.file_upload_window.uploads.setItemWidget(item, item_widget)
-            self.uploads_widgets.append((item_raw, thread))
+            thread = UploadThread(file_path, 'teste2')
             thread.start()
-            thread.sig_new_percentage.connect(lambda perc, diff: self.update_item_percentage(item_raw, perc, diff))
+            thread.sig_new_percentage.connect(lambda perc, diff: self.update_item_percentage(thread, item_raw, perc, diff))
+            self.uploads_widgets.append((item_raw, thread))
         else:
             # Open alert message
             alert = QMessageBox()
@@ -73,24 +74,34 @@ class MainWindow(QMainWindow):
         for item in self.uploads_widgets:
             if item[0] == item_widget:
                 if item[1].isRunning():
-                    item[1].sig_cancel_upload.emit()
+                    # item[1].sig_cancel_upload.emit()
+                    item[1].terminate()
                 item_widget.time_prevision.setText('Upload cancelado')
                 item_widget.cancel.setDisabled(True)
 
     @QtCore.pyqtSlot()
-    def update_item_percentage(self, item, percentage, diff):
+    def update_item_percentage(self, thread, item, percentage, diff):
+        now = datetime.datetime.now()
         item.percentage.setProperty("value", percentage)
-        if percentage == 100:
+        if percentage >= 100:
             text = 'Upload completo!'
             item.time_prevision.setText(text)
             return
-        total_secs_remaining = int((100 - percentage) / diff)
-        total_mins_remaining = int(total_secs_remaining / 60)
-        total_hours_remaining = int(total_mins_remaining / 60)
-        remaining_str = '{:02d}:{:02d}:{:02d}'\
-            .format(total_hours_remaining, total_mins_remaining % 60, total_secs_remaining % 60)
-        text = 'Tempo restante: ' + remaining_str
-        item.time_prevision.setText(text)
+        if diff > 0:
+            if thread.now == 0:
+                thread.now = now
+                return
+            timedelta = (now - thread.now).total_seconds()
+            if timedelta > 0.0000001:
+                print((diff / timedelta))
+                total_secs_remaining = int((100 - percentage) * (timedelta / diff))
+                total_mins_remaining = int(total_secs_remaining / 60)
+                total_hours_remaining = int(total_mins_remaining / 60)
+                remaining_str = '{:02d}:{:02d}:{:02d}'\
+                    .format(total_hours_remaining, total_mins_remaining % 60, total_secs_remaining % 60)
+                text = 'Tempo restante: ' + remaining_str
+                item.time_prevision.setText(text)
+                thread.now = now
 
     def open_file_dialog(self):
         filename = QFileDialog.getOpenFileName(self, 'Abrir arquivo')
