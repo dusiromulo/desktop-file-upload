@@ -2,6 +2,7 @@ import ctypes
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QWidget, QMainWindow, QFileDialog, QSystemTrayIcon, QMenu, QListWidgetItem, QMessageBox
 
+from views.loginwindow import Ui_LoginWindow
 from views.fileuploadwindow import Ui_FileUploadWindow
 from views.fileuploaditem import Ui_Form as UploadListItem
 from .UploadThread import UploadThread
@@ -20,7 +21,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(self.app_icon)
 
         # self.loginWindow = Ui_LoginWindow()
-        # self.loginWindow.setupUi(mainWindow)
+        # self.loginWindow.setupUi(self)
 
         self.file_upload_window = Ui_FileUploadWindow()
         self.file_upload_window.setupUi(self)
@@ -86,8 +87,8 @@ class MainWindow(QMainWindow):
         total_secs_remaining = int((100 - percentage) / diff)
         total_mins_remaining = int(total_secs_remaining / 60)
         total_hours_remaining = int(total_mins_remaining / 60)
-        remaining_str = '{:02d}:{:02d}:{:02d}'.format(
-            total_hours_remaining, total_mins_remaining % 60, total_secs_remaining % 60)
+        remaining_str = '{:02d}:{:02d}:{:02d}'\
+            .format(total_hours_remaining, total_mins_remaining % 60, total_secs_remaining % 60)
         text = 'Tempo restante: ' + remaining_str
         item.time_prevision.setText(text)
 
