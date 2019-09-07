@@ -1,5 +1,6 @@
 django==2.2.5
 requests==2.22.0
+requests-toolbelt==0.9.1
 
 # Caso queira instalar o pyqt5, descomente a linha abaixo
 # PyQt5==5.13.0
