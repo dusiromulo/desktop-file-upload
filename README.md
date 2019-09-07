@@ -22,11 +22,10 @@ Considerando que você está na raíz deste projeto, abra o diretório file_uplo
 `cd file_upload_app`
 
 Faça as migrações da aplicação e depois crie um usuário administrador:
-`
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-`
+`python manage.py makemigrations`
+`python manage.py migrate`
+`python manage.py createsuperuser`
+
 
 Inicie o servidor:
 `python manage.py runserver 8000` 
