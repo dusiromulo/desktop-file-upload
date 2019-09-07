@@ -74,7 +74,6 @@ class MainWindow(QMainWindow):
         for item in self.uploads_widgets:
             if item[0] == item_widget:
                 if item[1].isRunning():
-                    # item[1].sig_cancel_upload.emit()
                     item[1].terminate()
                 item_widget.time_prevision.setText('Upload cancelado')
                 item_widget.cancel.setDisabled(True)
@@ -93,7 +92,6 @@ class MainWindow(QMainWindow):
                 return
             timedelta = (now - thread.now).total_seconds()
             if timedelta > 0.0000001:
-                print((diff / timedelta))
                 total_secs_remaining = int((100 - percentage) * (timedelta / diff))
                 total_mins_remaining = int(total_secs_remaining / 60)
                 total_hours_remaining = int(total_mins_remaining / 60)

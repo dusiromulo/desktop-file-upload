@@ -28,18 +28,15 @@ class ServerManager:
         if self.now == 0:
             self.now = now
             return
+
         timedelta = (now - self.now).total_seconds()
-        # print(timedelta)
+
         if timedelta > 0.1:
-            print("send data percentage")
-            print(float(100 * self.diff_sum) / self.file_size)
             cb_percentage(float(100 * self.bytes_read) / self.file_size, float(100 * self.diff_sum) / self.file_size)
             self.diff_sum = 0
             self.now = now
         if diff == 0:
             cb_percentage(float(100 * self.bytes_read) / self.file_size, float(100 * self.diff_sum) / self.file_size)
-
-
 
     def upload_file(self, username, filepath, cb_percentage, cb_success, cb_failure):
         self.file_size = os.path.getsize(filepath)
