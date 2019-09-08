@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtWidgets import QMessageBox
 from views.loginwindow import Ui_LoginWindow
 from utils.LoginThread import LoginThread
@@ -35,6 +35,7 @@ class LoginController:
         self.app.restoreOverrideCursor()
         self.show_alert('Credenciais inválidas', 'Por favor, verifique suas credenciais e tente novamente')
 
+    @pyqtSlot()
     def confirm_clicked(self):
         username = self.login.usernameLineEdit.text()
         password = self.login.passwordLineEdit.text()

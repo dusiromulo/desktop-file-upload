@@ -18,7 +18,7 @@ class AppController:
         self.main_window.show()
 
     def login_success(self, username):
-        self.main_window.hide_icon_and_tray()
+        self.main_window.hide_window_and_tray()
         self.main_window = MainWindow(self.app)
         self.active_controller = UploadController(self.main_window, username)
         self.main_window.show()

@@ -25,9 +25,11 @@ class MainWindow(QMainWindow):
             if not self.isVisible():
                 self.show()
 
-    def hide_icon_and_tray(self):
-        self.tray_icon.hide()
-        self.hide()
+    def hide_window_and_tray(self):
+        if self.tray_icon.isVisible():
+            self.tray_icon.hide()
+        if self.isVisible():
+            self.hide()
 
     # When user clicks on window quit button
     def closeEvent(self, event):

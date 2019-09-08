@@ -1,5 +1,4 @@
 import datetime
-from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QFileDialog, QListWidgetItem, QMessageBox
 
 from views.fileuploadwindow import Ui_FileUploadWindow
@@ -28,10 +27,12 @@ class UploadController:
         item.percentage.setProperty('value', 100)
         text = 'Upload completo!'
         item.time_prevision.setText(text)
+        item.cancel.setDisabled(True)
 
     def cb_upload_failure(self, item):
         text = 'Upload falhou!'
         item.time_prevision.setText(text)
+        item.cancel.setDisabled(True)
 
     def add_file_to_upload_list(self):
         file_path = self.upload_window.file_path.text()
@@ -50,7 +51,7 @@ class UploadController:
             thread = UploadThread(file_path, self.username)
             thread.start()
             thread.sig_new_percentage.connect(lambda perc, diff: self.update_item_percentage(thread, item_raw, perc, diff))
-            thread.sig_failure.connect(lambda: self.cb_upload_failure)
+            thread.sig_failure.connect(lambda: self.cb_upload_failure(item_raw))
             thread.sig_success.connect(lambda: self.cb_upload_success(item_raw))
             self.uploads_widgets.append((item_raw, thread))
         else:
@@ -75,7 +76,6 @@ class UploadController:
                 item_widget.time_prevision.setText('Upload cancelado')
                 item_widget.cancel.setDisabled(True)
 
-    @pyqtSlot()
     def update_item_percentage(self, thread, item, percentage, diff):
         now = datetime.datetime.now()
         item.percentage.setProperty("value", percentage)
