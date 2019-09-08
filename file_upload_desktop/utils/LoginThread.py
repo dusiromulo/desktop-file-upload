@@ -1,13 +1,16 @@
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
-
+from PyQt5.QtCore import QThread, pyqtSignal
 from utils.ServerManager import ServerManager
 
 
-class ServerThread(QThread):
-    sig_new_percentage = pyqtSignal(str)
-    sig_cancel_upload = pyqtSignal(str)
+class LoginThread(QThread):
+    sig_success = pyqtSignal()
+    sig_failure = pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, username, password):
         QThread.__init__(self)
         self.sm = ServerManager()
-        self.sm.login('teste', 'teste', lambda: print("SUCSESS!!"), lambda: print("FAILURE!!"))
+        self.username = username
+        self.password = password
+
+    def run(self):
+        self.sm.login(self.username, self.password, self.sig_success.emit, self.sig_failure.emit)

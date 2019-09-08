@@ -19,23 +19,3 @@ class UploadThread(QThread):
     def run(self):
         self.sm.upload_file(self.username, self.file_path,
                             self.sig_new_percentage.emit, self.sig_success.emit, self.sig_failure.emit)
-
-
-# class LoginThread(QThread):
-    # sig_response = pyqtSignal(int, str)
-    # percentage = 0
-    #
-    # def __init__(self, parent=None, ):
-    #     QThread.__init__(self, parent)
-    #     self.running = False
-    #     self.sm = ServerManager()
-    #
-    # def run(self):
-    #     total_diff = 2
-    #     self.percentage += total_diff
-    #     if self.percentage >= 100:
-    #         self.sig_new_percentage.emit(100, total_diff)
-    #         break
-    #     else:
-    #         self.sig_new_percentage.emit(self.percentage, total_diff)
-    #     time.sleep(1)
