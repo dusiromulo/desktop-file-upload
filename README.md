@@ -5,7 +5,8 @@ Aplicações de desktop (testada apenas em windows) e backend com autenticação
 
 ## Setup para execução
 
-Python 3.7.4 64 bit (Intel) on win32 (https://www.python.org/ftp/python/3.7.4/python-3.7.4-amd64.exe)
+Python 3.7.4 64 bit (Intel) on win32 (https://www.python.org/ftp/python/3.7.4/python-3.7.4-amd64.exe)<br /> 
+Windows 10 - 64 bit
 
 
 ## Instalação
@@ -18,7 +19,7 @@ Abra um prompt de comandos e caminhe até a pasta clonada (ou baixada e descompr
 
 Para conseguir se autenticar na aplicação Desktop, é preciso criar um usuário na área administrativa de nosso backend.<br /> 
 
-Considerando que você está na raíz deste projeto, abra o diretório file_upload_app:
+Considerando que você está na raíz deste projeto, abra o diretório file_upload_app:<br /> 
 `cd file_upload_app`
 
 Faça as migrações da aplicação e depois crie um usuário administrador:<br /> 
