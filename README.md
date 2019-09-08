@@ -12,6 +12,7 @@ Windows 10 - 64 bit
 ## Instalação
 
 Abra um prompt de comandos e caminhe até a pasta clonada (ou baixada e descomprimida) e execute os comandos:<br /> 
+`cd desktop-file-upload`<br /> 
 `pip install -r requirements.txt`
 
 
@@ -19,11 +20,11 @@ Abra um prompt de comandos e caminhe até a pasta clonada (ou baixada e descompr
 
 Para conseguir se autenticar na aplicação Desktop, é preciso criar um usuário na área administrativa de nosso backend.<br /> 
 
-Considerando que você está na raíz deste projeto, abra o diretório file_upload_app:<br /> 
-`cd file_upload_app`
+Considerando que você está na raíz deste projeto, abra o diretório file_upload_backend:<br /> 
+`cd file_upload_backend`
 
 Faça as migrações da aplicação e depois crie um usuário administrador:<br /> 
-`python manage.py makemigrations`<br /> 
+`python manage.py makemigrations file_upload_app`<br /> 
 `python manage.py migrate`<br /> 
 `python manage.py createsuperuser`<br /> 
 
